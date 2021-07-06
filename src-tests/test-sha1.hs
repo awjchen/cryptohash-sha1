@@ -6,6 +6,7 @@ import           Data.ByteString        (ByteString)
 import qualified Data.ByteString        as B
 import qualified Data.ByteString.Lazy   as BL
 import qualified Data.ByteString.Base16 as B16
+import           Data.Either            (fromRight)
 
 -- reference implementation
 import qualified Data.Digest.Pure.SHA   as REF
@@ -136,7 +137,7 @@ rfc2202Vectors = -- (secrect,msg,mac)
     , (rep 80 0xaa, "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data", x"e8e99d0f45237d786d6bbaa7965c7808bbff1a91")
     ]
   where
-    x = fst.B16.decode
+    x = fromRight undefined . B16.decode
     rep n c = B.replicate n c
 
 rfc2202Tests = zipWith makeTest [1::Int ..] rfc2202Vectors
